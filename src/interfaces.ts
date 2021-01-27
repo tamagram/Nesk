@@ -1,40 +1,32 @@
-type EnteredValuesOfTask = {
+export interface EnteredValuesOfTask {
     taskName: string;
     taskDetails: string;
+    repeat: string;
+    important: string;
 }
-type EnteredValuesOfSchedule = {
+
+export interface EnteredValuesOfSchedule {
     scheduleName: string;
     scheduleDetails: string;
     yyyymmdd: string;
     hhmm: string;
 }
-export interface ElementRegister {
-    readonly input?: EnteredValuesOfTask | EnteredValuesOfSchedule;
-    //連想配列
-    group?: EnteredValuesOfTask[] | EnteredValuesOfSchedule[];
-    formReading(): void;
-    intoGroup(): void;
+
+export interface Model {
+    readonly getTaskGroup: EnteredValuesOfTask[];
+    setTaskGroup: EnteredValuesOfTask | EnteredValuesOfTask[];
+    readonly getScheduleGroup: EnteredValuesOfSchedule[];
+    setScheduleGroup: EnteredValuesOfSchedule | EnteredValuesOfSchedule[];
 }
 
-export interface GroupManager {
-    managedGroup: EnteredValuesOfTask[] | EnteredValuesOfSchedule[];
-    groupSort(): EnteredValuesOfTask[] | EnteredValuesOfSchedule[];
+export interface View {
+    rendering(): void;
 }
 
-export interface Render {
-    topRenderGroup: HTMLDivElement[];
-    renderGroup: HTMLLIElement[];
-    groupAlteredForTop(): HTMLDivElement[];
-    groupAlter(): HTMLLIElement[];
-    topRender(): void;
-    groupRender(): void;
-}
-
-export interface Updating {
-    yyyymmdd: string;
-    hhmm: string;
-    updatingGroup: EnteredValuesOfTask[] | EnteredValuesOfSchedule[];
-    minutesUpdate(): void;
-    localStorageUpdate(): void;
-    groupObservation(): void;
+export interface Controller {
+    taskClickEvent(): void;
+    scheduleClickEvent(): void;
+    delClickEvent(): void;
+    doneClickEvent(): void;
+    passClickEvent(): void;
 }
