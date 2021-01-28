@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- myscript -->
-    <script src="dist/bundle.js"></script>
+    <script src="dist/main.js" defer></script>
 
     <title>Nesk</title>
 </head>
@@ -63,7 +63,7 @@
                 <div id="taskAlert" class="alert alert-success col-sm" role="alert">
                     現在タスクはありません！
                 </div>
-                <button id="taskRepeat" class="btn btn-success" onclick="taskRepeat();">繰り返しタスクを表示</button>
+                <button id="taskRepeatbtn" class="btn btn-success" onclick="taskRepeat();">繰り返しタスクを表示</button>
             </div>
             <div id="scheduleCardInsert" class="col-sm">
                 <div class="h2">SCHEDULE</div>
@@ -111,7 +111,7 @@
                         <textarea class="form-control" id="taskDetails" rows="3" placeholder="TaskDetails"
                             required></textarea>
                     </div>
-                    <button type="submit" id="taskbtn" class="btn btn-primary col">Set</button>
+                    <button type="button" id="taskbtn" class="btn btn-primary col">Set</button>
                 </div>
             </form>
         </div>

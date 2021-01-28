@@ -1,15 +1,15 @@
 export interface EnteredValuesOfTask {
-    taskName: string;
-    taskDetails: string;
-    repeat: string;
-    important: string;
+    taskName: string,
+    taskDetails: string,
+    repeat: boolean,
+    important: boolean,
 }
 
 export interface EnteredValuesOfSchedule {
-    scheduleName: string;
-    scheduleDetails: string;
-    yyyymmdd: string;
-    hhmm: string;
+    scheduleName: string,
+    scheduleDetails: string,
+    yyyymmdd: string,
+    hhmm: string,
 }
 
 export interface Model {
