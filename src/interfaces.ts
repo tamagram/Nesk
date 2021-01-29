@@ -13,10 +13,10 @@ export interface EnteredValuesOfSchedule {
 }
 
 export interface Model {
-    readonly getTaskGroup: EnteredValuesOfTask[];
-    setTaskGroup: EnteredValuesOfTask | EnteredValuesOfTask[];
-    readonly getScheduleGroup: EnteredValuesOfSchedule[];
-    setScheduleGroup: EnteredValuesOfSchedule | EnteredValuesOfSchedule[];
+    getTaskGroup(): EnteredValuesOfTask[];
+    setTaskGroup(_param: EnteredValuesOfTask | EnteredValuesOfTask[]): void;
+    getScheduleGroup(): EnteredValuesOfSchedule[];
+    setScheduleGroup(_param: EnteredValuesOfSchedule | EnteredValuesOfSchedule[]): void;
 }
 
 export interface View {

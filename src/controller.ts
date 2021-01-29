@@ -14,8 +14,8 @@ export class Controller implements interfaces.Controller {
         this.Model = new Model();
         this.View = new View(this, this.Model);
     }
-    taskClickEvent() {
-        alert("clickedTaskForm");
+    taskClickEvent = () => {
+        console.log("clickedTaskForm");
         if (!((document.getElementById("taskName") as HTMLInputElement).value && (document.getElementById("taskDetails") as HTMLInputElement).value)) {
             return;
         }
@@ -26,20 +26,20 @@ export class Controller implements interfaces.Controller {
             repeat: (document.getElementById("taskRepeat") as HTMLInputElement).checked,
         }
         console.log(this._enteredValuesOfTask);
-        this.Model.setTaskGroup = this._enteredValuesOfTask;
+        this.Model.setTaskGroup(this._enteredValuesOfTask);
         return false;
     }
-    scheduleClickEvent() {
-        alert("clickedScheduleForm");
+    scheduleClickEvent = () => {
+        console.log("clickedScheduleForm");
     }
-    delClickEvent() {
-        alert("clickedDelEvent");
+    delClickEvent = () => {
+        console.log("clickedDelEvent");
     }
-    doneClickEvent() {
-        alert("clickedDoneEvent");
+    doneClickEvent = () => {
+        console.log("clickedDoneEvent");
     }
-    passClickEvent() {
-        alert("clickedPassEvent");
+    passClickEvent = () => {
+        console.log("clickedPassEvent");
 
     }
 }

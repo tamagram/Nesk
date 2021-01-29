@@ -9,15 +9,16 @@ export class View implements interfaces.View {
         this._Controller = _instanceController;
         this._Model = _instanceModel;
     }
-    rendering() {
+    rendering = () => {
+        console.log("call rendering");
         document.querySelectorAll(".card").forEach(_element => {
             _element.remove();
         });
         document.querySelectorAll(".list-group-item").forEach(_element => {
             _element.remove();
         })
-        if (this._Model.getTaskGroup) {
-            this._Model.getTaskGroup.forEach((_element, _index) => {
+        if (this._Model.getTaskGroup()) {
+            this._Model.getTaskGroup().forEach((_element, _index) => {
                 if (_index === 0) {
                     document.querySelector("#taskCardInsert")!.append(
                         `<div class="card text-white bg-info mb-3">
@@ -53,8 +54,8 @@ export class View implements interfaces.View {
                 }
             });
         }
-        if (this._Model.getScheduleGroup) {
-            this._Model.getScheduleGroup.forEach((_element, _index) => {
+        if (this._Model.getScheduleGroup()) {
+            this._Model.getScheduleGroup().forEach((_element, _index) => {
                 document.querySelector("#scheduleCardInsert")!.append(
                     `<div class="card text-white bg-info mb-3">
                             <div class="card-body">
