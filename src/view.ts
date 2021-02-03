@@ -18,9 +18,11 @@ export class View implements interfaces.View {
             _element.remove();
         });
         if (this._Model.getTaskGroup().length) {
+            document.getElementById('taskAlert').style.display = 'none';
+            document.getElementById('taskRepeatbtn').style.display = 'none';
             this._Model.getTaskGroup().forEach((_element, _index) => {
                 if (_index === 0) {
-                    document.querySelector("#taskCardInsert")!.append(
+                    document.querySelector("#taskCardInsert")!.insertAdjacentHTML('beforeend',
                         `<div class="card text-white bg-info mb-3">
                                         <div class="card-body">
                                             <h5 class="card-title">${_element.taskName}</h5>
@@ -40,7 +42,7 @@ export class View implements interfaces.View {
                     document.querySelector('#passbtn')?.addEventListener('click', this._Controller.passClickEvent);
                     document.querySelector('#donebtn')?.addEventListener('click', this._Controller.doneClickEvent);
                 } else {
-                    document.querySelector("#taskCardInsert")!.append(
+                    document.querySelector("#taskCardInsert")!.insertAdjacentHTML('beforeend',
                         `<div class="card text-white bg-info mb-3">
                                     <div class="card-body">
                                         <h5 class="card-title">${_element.taskName}</h5>
