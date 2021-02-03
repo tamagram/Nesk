@@ -16,7 +16,8 @@ export class Controller implements interfaces.Controller {
     }
     taskClickEvent = () => {
         console.log("clickedTaskForm");
-        if (!((document.getElementById("taskName") as HTMLInputElement).value && (document.getElementById("taskDetails") as HTMLInputElement).value)) {
+        if (!((document.getElementById("taskName") as HTMLInputElement).value &&
+            (document.getElementById("taskDetails") as HTMLInputElement).value)) {
             return;
         }
         this._enteredValuesOfTask = {
@@ -32,6 +33,20 @@ export class Controller implements interfaces.Controller {
     }
     scheduleClickEvent = () => {
         console.log("clickedScheduleForm");
+        if (!((document.getElementById("scheduleName") as HTMLInputElement).value &&
+            (document.getElementById("scheduleDetails") as HTMLInputElement).value)) {
+            return;
+        }
+        this._enteredValuesOfSchedule = {
+            scheduleName: (document.getElementById("scheduleName") as HTMLInputElement).value,
+            scheduleDetails: (document.getElementById("scheduleDetails") as HTMLInputElement).value,
+            yyyymmdd: (document.getElementById("scheduleDate") as HTMLInputElement).value,
+            hhmm: (document.getElementById("scheduleTime") as HTMLInputElement).value,
+        }
+        console.log(this._enteredValuesOfSchedule);
+        this.Model.setScheduleGroup(this._enteredValuesOfSchedule);
+        this.View.rendering();
+        return false;
     }
     delClickEvent = () => {
         console.log("clickedDelEvent");

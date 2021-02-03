@@ -18,23 +18,22 @@ export class View implements interfaces.View {
             _element.remove();
         });
         if (this._Model.getTaskGroup().length) {
-            document.getElementById('taskAlert').style.display = 'none';
-            document.getElementById('taskRepeatbtn').style.display = 'none';
+            document.getElementById('taskAlert')!.style.display = 'none';
+            document.getElementById('taskRepeatbtn')!.style.display = 'none';
             this._Model.getTaskGroup().forEach((_element, _index) => {
                 if (_index === 0) {
                     document.querySelector("#taskCardInsert")!.insertAdjacentHTML('beforeend',
-                        `<div class="card text-white bg-info mb-3">
+                        `<div class="card text-white ${_element.important ? 'bg-danger' : 'bg-info'} mb-3">
                                         <div class="card-body">
                                             <h5 class="card-title">${_element.taskName}</h5>
                                             <p class="card-text">
                                                 ${_element.taskDetails}
                                             </p>
-                                            ${_element.important}
                                         </div>
                                         <div class="card-footer bg-dark rounded">
                                             <div class="row">
-                                                <button type="button" id="passbtn" onclick="controller.passClickEvent()" class="btn btn-outline-danger col-auto mr-auto mx-4">Pass</button>
-                                                <button type="button" id="donebtn" onclick="controller.doneClickEvent()" class="btn btn-outline-success col-auto mx-4">Done!</button>
+                                                <button type="button" id="passbtn" class="btn btn-outline-danger col-auto mr-auto mx-4">Pass</button>
+                                                <button type="button" id="donebtn" class="btn btn-outline-success col-auto mx-4">Done!</button>
                                             </div>
                                         </div>
                                     </div>`
@@ -43,22 +42,25 @@ export class View implements interfaces.View {
                     document.querySelector('#donebtn')?.addEventListener('click', this._Controller.doneClickEvent);
                 } else {
                     document.querySelector("#taskCardInsert")!.insertAdjacentHTML('beforeend',
-                        `<div class="card text-white bg-info mb-3">
+                        `<div class="card text-white ${_element.important ? 'bg-danger' : 'bg-info'} mb-3">
                                     <div class="card-body">
                                         <h5 class="card-title">${_element.taskName}</h5>
                                         <p class="card-text">
                                             ${_element.taskDetails}
                                         </p>
-                                        ${_element.important}
                                     </div>
                                 </div>`
                     )
                 }
             });
+        } else {
+            document.getElementById('taskAlert')!.style.display = 'block';
+            document.getElementById('taskRepeatbtn')!.style.display = 'block';
         }
         if (this._Model.getScheduleGroup().length) {
+            document.getElementById('scheduleAlert')!.style.display = 'none';
             this._Model.getScheduleGroup().forEach((_element, _index) => {
-                document.querySelector("#scheduleCardInsert")!.append(
+                document.querySelector("#scheduleCardInsert")!.insertAdjacentHTML('beforeend',
                     `<div class="card text-white bg-info mb-3">
                             <div class="card-body">
                                 <h5 class="card-title">${_element.scheduleName}</h5>
@@ -72,6 +74,8 @@ export class View implements interfaces.View {
                         </div>`
                 );
             });
+        } else {
+            document.getElementById('scheduleAlert')!.style.display = 'block';
         }
     }
 }
