@@ -4,11 +4,10 @@ export class Model implements interfaces.Model {
     private _tmp: interfaces.EnteredValuesOfTask[] | interfaces.EnteredValuesOfSchedule[] = [];
     getTaskGroup = (): interfaces.EnteredValuesOfTask[] => {
         console.log("call getTaskGroup");
-        return JSON.parse(localStorage.getItem('task')!);
+        return JSON.parse(localStorage.getItem('task') || '[]');//nullの時デフォルト値[]
     }
     setTaskGroup = (_params: interfaces.EnteredValuesOfTask | interfaces.EnteredValuesOfTask[]) => {
         console.log("call setTaskGroup");
-        if (!this.getTaskGroup()) localStorage.setItem("task", "[]");
         if (Array.isArray(_params)) {
             localStorage.removeItem('task');
             localStorage.setItem('task', JSON.stringify(_params));
@@ -21,11 +20,10 @@ export class Model implements interfaces.Model {
     }
     getScheduleGroup = (): interfaces.EnteredValuesOfSchedule[] => {
         console.log("call getScheduleGroup");
-        return JSON.parse(localStorage.getItem('schedule')!);
+        return JSON.parse(localStorage.getItem('schedule') || '[]');
     }
     setScheduleGroup = (_params: interfaces.EnteredValuesOfSchedule | interfaces.EnteredValuesOfSchedule[]) => {
         console.log("call setScheduleGroup");
-        if (!this.getScheduleGroup()) localStorage.setItem("task", "[]");
         if (Array.isArray(_params)) {
             localStorage.removeItem('schedule');
             localStorage.setItem('schedule', JSON.stringify(_params));

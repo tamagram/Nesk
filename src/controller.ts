@@ -4,7 +4,7 @@ import { View } from './view'
 
 export class Controller implements interfaces.Controller {
     private Model!: Model;
-    private View!: View;
+    View!: View;
     private _enteredValuesOfTask: interfaces.EnteredValuesOfTask;
     private _enteredValuesOfSchedule: interfaces.EnteredValuesOfSchedule;
     private _taskGroup: interfaces.EnteredValuesOfTask[];
@@ -27,6 +27,7 @@ export class Controller implements interfaces.Controller {
         }
         console.log(this._enteredValuesOfTask);
         this.Model.setTaskGroup(this._enteredValuesOfTask);
+        this.View.rendering();
         return false;
     }
     scheduleClickEvent = () => {

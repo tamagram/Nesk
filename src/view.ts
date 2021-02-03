@@ -16,8 +16,8 @@ export class View implements interfaces.View {
         });
         document.querySelectorAll(".list-group-item").forEach(_element => {
             _element.remove();
-        })
-        if (this._Model.getTaskGroup()) {
+        });
+        if (this._Model.getTaskGroup().length) {
             this._Model.getTaskGroup().forEach((_element, _index) => {
                 if (_index === 0) {
                     document.querySelector("#taskCardInsert")!.append(
@@ -54,7 +54,7 @@ export class View implements interfaces.View {
                 }
             });
         }
-        if (this._Model.getScheduleGroup()) {
+        if (this._Model.getScheduleGroup().length) {
             this._Model.getScheduleGroup().forEach((_element, _index) => {
                 document.querySelector("#scheduleCardInsert")!.append(
                     `<div class="card text-white bg-info mb-3">
