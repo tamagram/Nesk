@@ -52,10 +52,18 @@ export class Controller implements interfaces.Controller {
         console.log("clickedDelEvent");
     }
     doneClickEvent = () => {
-        console.log("clickedDoneEvent");
+        //alert("clickedDoneEvent");
+        this._taskGroup = this.Model.getTaskGroup();
+        this._taskGroup.shift();
+        this.Model.setTaskGroup(this._taskGroup);
+        this.View.rendering();
     }
     passClickEvent = () => {
-        console.log("clickedPassEvent");
-
+        // alert("clickedPassEvent");
+        this._taskGroup = this.Model.getTaskGroup();
+        //0番目を末尾へ
+        this._taskGroup.push(this._taskGroup.shift());
+        this.Model.setTaskGroup(this._taskGroup);
+        this.View.rendering();
     }
 }
