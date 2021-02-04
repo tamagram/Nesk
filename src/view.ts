@@ -10,14 +10,27 @@ export class View implements interfaces.View {
         this._Model = _instanceModel;
     }
     rendering = () => {
-        console.log("call rendering");
-        document.querySelectorAll(".card").forEach(_element => {
+        console.log('call rendering');
+        document.querySelectorAll('.card').forEach(_element => {
             _element.remove();
         });
-        document.querySelectorAll(".list-group-item").forEach(_element => {
+        document.querySelectorAll('.list-group-item').forEach(_element => {
             _element.remove();
         });
         if (this._Model.getTaskGroup().length) {
+            this._Model.getTaskGroup().forEach(_element => {
+                document.getElementById('taskList')!.insertAdjacentHTML('beforeend',
+                    `<li class='list-group-item text-wrap'>${_element.taskName},${_element.taskDetails}
+                    <button type=button class="btn btn-danger deletebtn float-right">削除</button>
+                    </li>`
+                );
+            });
+            document.querySelectorAll('.deletebtn').forEach((_element, _index) => {
+                _element.addEventListener('click', () => {
+                    this._Controller.delClickEvent(_index);
+                });
+            });
+
             document.getElementById('taskAlert')!.style.display = 'none';
             document.getElementById('taskRepeatbtn')!.style.display = 'none';
             this._Model.getTaskGroup().forEach((_element, _index) => {

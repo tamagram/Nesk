@@ -26,7 +26,7 @@ export interface View {
 export interface Controller {
     taskClickEvent(): void;
     scheduleClickEvent(): void;
-    delClickEvent(): void;
+    delClickEvent(_index: number): void;
     doneClickEvent(): void;
     passClickEvent(): void;
 }

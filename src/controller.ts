@@ -48,12 +48,19 @@ export class Controller implements interfaces.Controller {
         this.View.rendering();
         return false;
     }
-    delClickEvent = () => {
-        console.log("clickedDelEvent");
+    delClickEvent = (_index: number) => {
+        //_indexの要素を削除しlocalstorageへ
+        // this.Model.setTaskGroup(this.Model.getTaskGroup().splice(1, _index));の場合取り出された値が入ってしまう
+        // alert("clickedDelEvent" + _index + JSON.stringify(this.Model.getTaskGroup()));
+        this._taskGroup = this.Model.getTaskGroup();
+        this._taskGroup.splice(_index, 1);
+        this.Model.setTaskGroup(this._taskGroup);
+        this.View.rendering();
     }
     doneClickEvent = () => {
         //alert("clickedDoneEvent");
         this._taskGroup = this.Model.getTaskGroup();
+        //shift()による破壊
         this._taskGroup.shift();
         this.Model.setTaskGroup(this._taskGroup);
         this.View.rendering();
