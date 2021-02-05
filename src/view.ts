@@ -10,29 +10,32 @@ export class View implements interfaces.View {
         this._Model = _instanceModel;
     }
     rendering = () => {
-        console.log('call rendering');
+        // console.log('call rendering');
+        //一度消去
         document.querySelectorAll('.card').forEach(_element => {
             _element.remove();
         });
         document.querySelectorAll('.list-group-item').forEach(_element => {
             _element.remove();
         });
+
+        //taskGroupの表示
         if (this._Model.getTaskGroup().length) {
             this._Model.getTaskGroup().forEach(_element => {
                 document.getElementById('taskList')!.insertAdjacentHTML('beforeend',
                     `<li class='list-group-item text-wrap'>${_element.taskName},${_element.taskDetails}
-                    <button type=button class="btn btn-danger deletebtn float-right">削除</button>
+                    <button type=button class="btn btn-danger taskDeleteBtn float-right">削除</button>
                     </li>`
                 );
             });
-            document.querySelectorAll('.deletebtn').forEach((_element, _index) => {
+            document.querySelectorAll('.taskDeleteBtn').forEach((_element, _index) => {
                 _element.addEventListener('click', () => {
-                    this._Controller.delClickEvent(_index);
+                    this._Controller.delClickEvent('task', _index);
                 });
             });
 
             document.getElementById('taskAlert')!.style.display = 'none';
-            document.getElementById('taskRepeatbtn')!.style.display = 'none';
+            document.getElementById('taskRepeatBtn')!.style.display = 'none';
             this._Model.getTaskGroup().forEach((_element, _index) => {
                 if (_index === 0) {
                     document.querySelector("#taskCardInsert")!.insertAdjacentHTML('beforeend',
@@ -68,8 +71,26 @@ export class View implements interfaces.View {
             });
         } else {
             document.getElementById('taskAlert')!.style.display = 'block';
-            document.getElementById('taskRepeatbtn')!.style.display = 'block';
+            document.getElementById('taskRepeatBtn')!.style.display = 'block';
         }
+
+        //repeatTaskGroupの表示
+        if (this._Model.getRepeatTaskGroup().length) {
+            this._Model.getRepeatTaskGroup().forEach(_element => {
+                document.getElementById('repeatList')!.insertAdjacentHTML('beforeend',
+                    `<li class='list-group-item text-wrap'>${_element.taskName},${_element.taskDetails}
+                    <button type=button class="btn btn-danger repeatTaskDeleteBtn float-right">削除</button>
+                    </li>`
+                );
+            });
+        }
+        document.querySelectorAll('.repeatTaskDeleteBtn').forEach((_element, _index) => {
+            _element.addEventListener('click', () => {
+                this._Controller.delClickEvent('repeatTask', _index);
+            });
+        });
+
+        //scheduleGroupの表示
         if (this._Model.getScheduleGroup().length) {
             document.getElementById('scheduleAlert')!.style.display = 'none';
             this._Model.getScheduleGroup().forEach((_element, _index) => {

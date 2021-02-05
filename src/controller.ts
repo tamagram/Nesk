@@ -14,6 +14,7 @@ export class Controller implements interfaces.Controller {
         this.Model = new Model();
         this.View = new View(this, this.Model);
     }
+
     taskClickEvent = () => {
         console.log("clickedTaskForm");
         if (!((document.getElementById("taskName") as HTMLInputElement).value &&
@@ -31,6 +32,14 @@ export class Controller implements interfaces.Controller {
         this.View.rendering();
         return false;
     }
+
+    repeatTaskClickEvent = () => {
+        //repeatTaskの配列をtaskへ移動
+        this.Model.setTaskGroup(this.Model.getRepeatTaskGroup());
+        this.Model.setRepeatTaskGroup([]);
+        this.View.rendering();
+    }
+
     scheduleClickEvent = () => {
         console.log("clickedScheduleForm");
         if (!((document.getElementById("scheduleName") as HTMLInputElement).value &&
@@ -48,23 +57,45 @@ export class Controller implements interfaces.Controller {
         this.View.rendering();
         return false;
     }
-    delClickEvent = (_index: number) => {
+
+    delClickEvent = (_localstorageKey: string, _index?: number) => {
         //_indexの要素を削除しlocalstorageへ
         // this.Model.setTaskGroup(this.Model.getTaskGroup().splice(1, _index));の場合取り出された値が入ってしまう
-        // alert("clickedDelEvent" + _index + JSON.stringify(this.Model.getTaskGroup()));
-        this._taskGroup = this.Model.getTaskGroup();
-        this._taskGroup.splice(_index, 1);
-        this.Model.setTaskGroup(this._taskGroup);
-        this.View.rendering();
+        alert("clickedDelEvent" + _index + JSON.stringify(this.Model.getTaskGroup()));
+        if (_localstorageKey === 'task' && _index !== null) {
+            this._taskGroup = this.Model.getTaskGroup();
+            this._taskGroup.splice(_index, 1);
+            this.Model.setTaskGroup(this._taskGroup);
+            this.View.rendering();
+            return;
+        } else if (_localstorageKey === 'task' && _index === null) {
+            this.Model.setTaskGroup([]);
+            this.View.rendering();
+        }
+        if (_localstorageKey === 'repeatTask' && _index !== null) {
+            this._repeatTaskGroup = this.Model.getRepeatTaskGroup();
+            this._repeatTaskGroup.splice(_index, 1);
+            this.Model.setRepeatTaskGroup(this._repeatTaskGroup);
+            this.View.rendering();
+            return;
+        } else if (_localstorageKey === 'repeatTask' && _index === null) {
+            this.Model.setRepeatTaskGroup([]);
+            this.View.rendering();
+        }
     }
+
     doneClickEvent = () => {
         //alert("clickedDoneEvent");
         this._taskGroup = this.Model.getTaskGroup();
+        if (this._taskGroup[0].repeat) {
+            this.Model.setRepeatTaskGroup(this._taskGroup[0]);
+        }
         //shift()による破壊
         this._taskGroup.shift();
         this.Model.setTaskGroup(this._taskGroup);
         this.View.rendering();
     }
+
     passClickEvent = () => {
         // alert("clickedPassEvent");
         this._taskGroup = this.Model.getTaskGroup();

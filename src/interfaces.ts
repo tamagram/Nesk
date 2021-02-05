@@ -15,6 +15,8 @@ export interface EnteredValuesOfSchedule {
 export interface Model {
     getTaskGroup(): EnteredValuesOfTask[];
     setTaskGroup(_param: EnteredValuesOfTask | EnteredValuesOfTask[]): void;
+    getRepeatTaskGroup(): EnteredValuesOfTask[];
+    setRepeatTaskGroup(_param: EnteredValuesOfTask | EnteredValuesOfTask[]): void;
     getScheduleGroup(): EnteredValuesOfSchedule[];
     setScheduleGroup(_param: EnteredValuesOfSchedule | EnteredValuesOfSchedule[]): void;
 }
@@ -26,7 +28,7 @@ export interface View {
 export interface Controller {
     taskClickEvent(): void;
     scheduleClickEvent(): void;
-    delClickEvent(_index: number): void;
+    delClickEvent(_localstorageKey: string, _index?: number): void;
     doneClickEvent(): void;
     passClickEvent(): void;
 }
