@@ -13,8 +13,17 @@ export class Controller implements interfaces.Controller {
     constructor() {
         this.Model = new Model();
         this.View = new View(this, this.Model);
-    }
 
+    }
+    //modelへの操作
+    _getDateTimeArray = () => {
+        let _date = new Date();
+        return [_date.getFullYear() + '-' + ('00' + _date.getMonth() + 1).slice(-2) + '-' + ('00' + _date.getDate()).slice(-2),
+        ('00' + _date.getHours()).slice(-2) + ':' + ('00' + _date.getMinutes()).slice(-2)];
+    }
+        
+
+    //クリックイベント
     taskClickEvent = () => {
         console.log("clickedTaskForm");
         if (!((document.getElementById("taskName") as HTMLInputElement).value &&
@@ -61,7 +70,7 @@ export class Controller implements interfaces.Controller {
     delClickEvent = (_localstorageKey: string, _index?: number) => {
         //_indexの要素を削除しlocalstorageへ
         // this.Model.setTaskGroup(this.Model.getTaskGroup().splice(1, _index));の場合取り出された値が入ってしまう
-        alert("clickedDelEvent" + _index + JSON.stringify(this.Model.getTaskGroup()));
+        // alert("clickedDelEvent" + _index + JSON.stringify(this.Model.getTaskGroup()));
         if (_localstorageKey === 'task' && _index !== null) {
             this._taskGroup = this.Model.getTaskGroup();
             this._taskGroup.splice(_index, 1);
