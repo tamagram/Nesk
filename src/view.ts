@@ -111,5 +111,10 @@ export class View implements interfaces.View {
         } else {
             document.getElementById('scheduleAlert')!.style.display = 'block';
         }
+
+        //フォームに日付と時間をセット
+        let _date = new Date();
+        (document.getElementById('scheduleDate') as HTMLInputElement)!.value = _date.getFullYear() + '-' + ('00' + (_date.getMonth() + 1)).slice(-2) + '-' + ('00' + _date.getDate()).slice(-2);
+        (document.getElementById('scheduleTime') as HTMLInputElement)!.value = ('00' + _date.getHours()).slice(-2) + ':' + ('00' + _date.getMinutes()).slice(-2);
     }
 }

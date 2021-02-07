@@ -15,13 +15,6 @@ export class Controller implements interfaces.Controller {
         this.View = new View(this, this.Model);
 
     }
-    //modelへの操作
-    _getDateTimeArray = () => {
-        let _date = new Date();
-        return [_date.getFullYear() + '-' + ('00' + _date.getMonth() + 1).slice(-2) + '-' + ('00' + _date.getDate()).slice(-2),
-        ('00' + _date.getHours()).slice(-2) + ':' + ('00' + _date.getMinutes()).slice(-2)];
-    }
-        
 
     //クリックイベント
     taskClickEvent = () => {
