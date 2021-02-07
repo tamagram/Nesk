@@ -9,6 +9,7 @@ export class View implements interfaces.View {
         this._Controller = _instanceController;
         this._Model = _instanceModel;
     }
+
     rendering = () => {
         // console.log('call rendering');
         //一度消去

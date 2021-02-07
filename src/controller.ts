@@ -16,6 +16,11 @@ export class Controller implements interfaces.Controller {
 
     }
 
+    //フォーム入力値の無害化
+    _sanitaize = (_str: string) => {
+        return _str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    
     //クリックイベント
     taskClickEvent = () => {
         console.log("clickedTaskForm");
@@ -24,12 +29,12 @@ export class Controller implements interfaces.Controller {
             return;
         }
         this._enteredValuesOfTask = {
-            taskName: (document.getElementById("taskName") as HTMLInputElement).value,
-            taskDetails: (document.getElementById("taskDetails") as HTMLInputElement).value,
+            taskName: this._sanitaize((document.getElementById("taskName") as HTMLInputElement).value),
+            taskDetails: this._sanitaize((document.getElementById("taskDetails") as HTMLInputElement).value),
             important: (document.getElementById("taskImportant") as HTMLInputElement).checked,
             repeat: (document.getElementById("taskRepeat") as HTMLInputElement).checked,
         }
-        console.log(this._enteredValuesOfTask);
+        // console.log(this._enteredValuesOfTask);
         this.Model.setTaskGroup(this._enteredValuesOfTask);
         this.View.rendering();
         return false;
@@ -49,8 +54,8 @@ export class Controller implements interfaces.Controller {
             return;
         }
         this._enteredValuesOfSchedule = {
-            scheduleName: (document.getElementById("scheduleName") as HTMLInputElement).value,
-            scheduleDetails: (document.getElementById("scheduleDetails") as HTMLInputElement).value,
+            scheduleName: this._sanitaize((document.getElementById("scheduleName") as HTMLInputElement).value),
+            scheduleDetails: this._sanitaize((document.getElementById("scheduleDetails") as HTMLInputElement).value),
             yyyymmdd: (document.getElementById("scheduleDate") as HTMLInputElement).value,
             hhmm: (document.getElementById("scheduleTime") as HTMLInputElement).value,
         }
