@@ -31,4 +31,11 @@ export interface Controller {
     delClickEvent(_localstorageKey: string, _index?: number): void;
     doneClickEvent(): void;
     passClickEvent(): void;
+    signInClickEvent(): void;
+    signOutClickEvent(): void;
+}
+
+export interface Authorization {
+    writeCookie(): void;
+    deleteCookie(): void;
 }

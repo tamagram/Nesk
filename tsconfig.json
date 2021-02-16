@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
+    "sourceMap": false,
     "target": "es5", // TSはECMAScript 5に変換
     "module": "es2015", // TSのモジュールはES Modulesとして出力
     "outDir": "dist",

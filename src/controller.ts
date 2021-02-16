@@ -1,10 +1,12 @@
 import * as interfaces from './interfaces'
 import { Model } from './model'
 import { View } from './view'
+import { Authorization } from './authorization'
 
 export class Controller implements interfaces.Controller {
     private Model!: Model;
     View!: View;
+    Authorization!: Authorization;
     private _enteredValuesOfTask: interfaces.EnteredValuesOfTask;
     private _enteredValuesOfSchedule: interfaces.EnteredValuesOfSchedule;
     private _taskGroup: interfaces.EnteredValuesOfTask[];
@@ -13,14 +15,14 @@ export class Controller implements interfaces.Controller {
     constructor() {
         this.Model = new Model();
         this.View = new View(this, this.Model);
-
+        this.Authorization = new Authorization();
     }
 
     //フォーム入力値の無害化
     _sanitaize = (_str: string) => {
         return _str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
-    
+
     //クリックイベント
     taskClickEvent = () => {
         console.log("clickedTaskForm");
@@ -110,5 +112,14 @@ export class Controller implements interfaces.Controller {
         this._taskGroup.push(this._taskGroup.shift());
         this.Model.setTaskGroup(this._taskGroup);
         this.View.rendering();
+    }
+
+    signInClickEvent = () => {
+        this.Authorization.writeCookie();
+        //ログイン後情報取得しレンダリング
+    }
+
+    signOutClickEvent = () => {
+        this.Authorization.deleteCookie();
     }
 }
