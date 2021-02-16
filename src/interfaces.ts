@@ -36,6 +36,7 @@ export interface Controller {
 }
 
 export interface Authorization {
+    trySampleRequest():void;
     writeCookie(): void;
     deleteCookie(): void;
 }

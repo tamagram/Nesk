@@ -115,7 +115,8 @@ export class Controller implements interfaces.Controller {
     }
 
     signInClickEvent = () => {
-        this.Authorization.writeCookie();
+        this.Authorization.trySampleRequest();
+        alert(document.cookie);
         //ログイン後情報取得しレンダリング
     }
 

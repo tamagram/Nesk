@@ -2,9 +2,6 @@ import * as env from './env/env';
 import * as interfaces from './interfaces';
 
 export class Authorization implements interfaces.Authorization {
-    constructor() {
-        alert('authorization生成');
-    }
     /*
     * Create form to request access token from Google's OAuth 2.0 server.
     */
@@ -40,12 +37,12 @@ export class Authorization implements interfaces.Authorization {
         document.body.appendChild(_form);
         _form.submit();
     }
+
     // If there's an access token, try an API request.
     // Otherwise, start OAuth 2.0 flow.
-    _trySampleRequest = () => {
+    trySampleRequest = () => {
         // let params = JSON.parse(localStorage.getItem('oauth2-test-params'));
         let _params = document.cookie;
-        console.log(document.cookie);
         if (_params && _params['access_token']) {
             let xhr = new XMLHttpRequest();
             xhr.open('GET',
@@ -66,25 +63,23 @@ export class Authorization implements interfaces.Authorization {
     }
 
     writeCookie = () => {
-        console.log('writeCookie();');
         let _fragmentString = location.hash.substring(1);
         // Parse query string to see if page request is coming from OAuth 2.0 server.
         let _params = {};
-        let _regex = /([^&=]+)=([^&]*)/g, m;
+        let _regex = /([^&=]+)=([^&]*)/g, m: string[];
         while (m = _regex.exec(_fragmentString)) {
             _params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
         }
+        alert(_params);
         if (Object.keys(_params).length > 0) {
             // localStorage.setItem('oauth2-test-params', JSON.stringify(params));
-            document.cookie = "oquth2-test-params=" + _params;
-            console.log(document.cookie);
-            if (_params['state'] && _params['state'] == 'try_sample_request') {
-                this._trySampleRequest();
-            }
+            document.cookie = "oauth2-test-params=" + JSON.stringify(_params);
+            alert(document.cookie);
         }
     }
-    deleteCookie = () => {
 
+    deleteCookie = () => {
+        document.cookie = 'oauth2-test-params=; max-age=0';
     }
 }
 
