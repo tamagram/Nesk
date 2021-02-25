@@ -1,66 +1,119 @@
 import * as env from '../env/env'
 
+// Client ID and API key from the Developer Console
+var CLIENT_ID = env.YOUR_CLIENT_ID;
+var API_KEY = env.YOUR_API_KEY;
+
+// Array of API discovery doc URLs for APIs used by the quickstart
+var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+
+// Authorization scopes required by the API; multiple scopes can be
+// included, separated by spaces.
+var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+
+var authorizeButton = document.getElementById('signInButton');
+var signoutButton = document.getElementById('signOutButton');
+
 /**
- * Sample JavaScript code for calendar.calendarList.list
- * See instructions for running APIs Explorer code samples locally:
- * https://developers.google.com/explorer-help/guides/code_samples#javascript
+ *  On load, called to load the auth2 library and API client library.
  */
-function authenticate() {
-    return gapi.auth2.getAuthInstance()
-        .signIn({ scope: "https://www.googleapis.com/auth/calendar.readonly" })
-        .then(function () { console.log("Sign-in successful"); },
-            function (err) { console.error("Error signing in", err); });
+export function handleClientLoad() {
+    gapi.load('client:auth2', initClient);
 }
-function loadClient() {
-    gapi.client.setApiKey(env.YOUR_API_KEY);
-    return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest", "v3")
-        .then(function () { console.log("GAPI client loaded for API"); },
-            function (err) { console.error("Error loading GAPI client for API", err); });
-}
-// Make sure the client is loaded and sign-in is complete before calling this method.
-function execute() {
-    
-    return gapi.client.calendar.calendarList.list({})
-        .then(function (response) {
-            // Handle the results here (response.result has the parsed body).
-            console.log("Response", response);
-        },
-            function (err) { console.error("Execute error", err); });
-}
+
 /**
-    *  Called when the signed in status changes, to update the UI
-    *  appropriately. After a sign-in, the API is called.
-    */
-function updateSigninStatus(isSignedIn: boolean) {
+ *  Initializes the API client library and sets up sign-in state
+ *  listeners.
+ */
+function initClient() {
+    gapi.client.init({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        discoveryDocs: DISCOVERY_DOCS,
+        scope: SCOPES
+    }).then(function () {
+        // Listen for sign-in state changes.
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+        // Handle the initial sign-in state.
+        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        authorizeButton.onclick = handleAuthClick;
+        signoutButton.onclick = handleSignoutClick;
+    }, function (error) {
+        appendPre(JSON.stringify(error, null, 2));
+    });
+}
+
+/**
+ *  Called when the signed in status changes, to update the UI
+ *  appropriately. After a sign-in, the API is called.
+ */
+function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
-        console.log("signinnow");
-        document.getElementById("signInButton")!.style.display = 'none';
-        document.getElementById("signOutButton")!.style.display = 'block';
+        authorizeButton.style.display = 'none';
+        signoutButton.style.display = 'block';
+        listUpcomingEvents();
     } else {
-        console.log("signoutnow");
-        document.getElementById("signOutButton")!.style.display = 'none';
-        document.getElementById("signInButton")!.style.display = 'block';
+        authorizeButton.style.display = 'block';
+        signoutButton.style.display = 'none';
     }
 }
 
-gapi.load("client:auth2", function () {
-    alert('oauth init');
-    gapi.auth2.init({ client_id: env.YOUR_CLIENT_ID })
-        .then(() => {
-            alert('oauth init then');
-            // Listen for sign-in state changes.
-            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
-            // Handle the initial sign-in state.
-            updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-        });
-});
-export const oauthSignIn = () => {
-    alert('oauthSignInFunc');
-    authenticate().then(loadClient, execute);
+/**
+ *  Sign in the user upon button click.
+ */
+function handleAuthClick(event) {
+    gapi.auth2.getAuthInstance().signIn();
 }
-export const oauthSignOut = () => {
-    alert('oauthSignOutFunc');
+
+/**
+ *  Sign out the user upon button click.
+ */
+function handleSignoutClick(event) {
     gapi.auth2.getAuthInstance().signOut();
     gapi.auth2.getAuthInstance().disconnect();
+}
+
+/**
+ * Append a pre element to the body containing the given message
+ * as its text node. Used to display the results of the API call.
+ *
+ * @param {string} message Text to be placed in pre element.
+ */
+function appendPre(message) {
+    var pre = document.getElementById('content');
+    var textContent = document.createTextNode(message + '\n');
+    pre.appendChild(textContent);
+}
+
+/**
+ * Print the summary and start datetime/date of the next ten events in
+ * the authorized user's calendar. If no events are found an
+ * appropriate message is printed.
+ */
+function listUpcomingEvents() {
+    gapi.client.calendar.events.list({
+        'calendarId': 'primary',
+        'timeMin': (new Date()).toISOString(),
+        'showDeleted': false,
+        'singleEvents': true,
+        'maxResults': 10,
+        'orderBy': 'startTime'
+    }).then(function (response) {
+        var events = response.result.items;
+        appendPre('Upcoming events:');
+
+        if (events.length > 0) {
+            for (let i = 0; i < events.length; i++) {
+                var event = events[i];
+                var when = event.start.dateTime;
+                if (!when) {
+                    when = event.start.date;
+                }
+                appendPre(event.summary + ' (' + when + ')')
+            }
+        } else {
+            appendPre('No upcoming events found.');
+        }
+    });
 }

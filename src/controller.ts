@@ -114,12 +114,11 @@ export class Controller implements interfaces.Controller {
 
     signInClickEvent = () => {
         alert('signInClickEvent');
-        gapi.oauthSignIn();
+        gapi.handleClientLoad();
         //ログイン後情報取得しレンダリング
     }
 
     signOutClickEvent = () => {
-        alert('signInClickEvent');
-        gapi.oauthSignOut();
+        alert('signOutClickEvent');
     }
 }

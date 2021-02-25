@@ -14,13 +14,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
-    <script src="https://apis.google.com/js/api.js"></script>
-
+    <script async defer src="https://apis.google.com/js/api.js">
+        </script>
     <!-- mystyle -->
     <link rel="stylesheet" href="style.css">
 
     <!-- myscript -->
-    <script src="dist/main.js" defer></script>
+    <script src="dist/main.js" async defer></script>
 
     <title>Nesk</title>
 </head>
@@ -49,12 +49,14 @@
                 </div>
             </li>
         </ul>
-        <button id="signInButton" class="btn btn-success" >ログイン</button>
-        <button id="signOutButton" class="btn btn-danger" >ログアウト</button>
+        <button id="signInButton" class="btn btn-success">ログイン</button>
+        <button id="signOutButton" class="btn btn-danger">ログアウト</button>
     </div>
 </nav>
 
 <body>
+    <pre id="content" style="white-space: pre-wrap;"></pre>
+
     <!-- task schedule -->
     <div id="taskSchedule" class="container section">
         <div class="row">
