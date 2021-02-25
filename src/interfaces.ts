@@ -22,7 +22,7 @@ export interface Model {
 }
 
 export interface View {
-    rendering(): void;
+    rendering(isSignedIn?: boolean): void;
 }
 
 export interface Controller {
@@ -36,7 +36,6 @@ export interface Controller {
 }
 
 export interface Authorization {
-    trySampleRequest():void;
-    writeCookie(): void;
-    deleteCookie(): void;
+    oauthSignIn(): void;
+    oauthSignOut(): void;
 }

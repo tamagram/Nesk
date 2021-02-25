@@ -1,12 +1,11 @@
 import * as interfaces from './interfaces'
+import * as gapi from './import/gapi'
 import { Model } from './model'
 import { View } from './view'
-import { Authorization } from './authorization'
 
 export class Controller implements interfaces.Controller {
     private Model!: Model;
     View!: View;
-    Authorization!: Authorization;
     private _enteredValuesOfTask: interfaces.EnteredValuesOfTask;
     private _enteredValuesOfSchedule: interfaces.EnteredValuesOfSchedule;
     private _taskGroup: interfaces.EnteredValuesOfTask[];
@@ -15,7 +14,6 @@ export class Controller implements interfaces.Controller {
     constructor() {
         this.Model = new Model();
         this.View = new View(this, this.Model);
-        this.Authorization = new Authorization();
     }
 
     //フォーム入力値の無害化
@@ -115,12 +113,13 @@ export class Controller implements interfaces.Controller {
     }
 
     signInClickEvent = () => {
-        this.Authorization.trySampleRequest();
-        alert(document.cookie);
+        alert('signInClickEvent');
+        gapi.oauthSignIn();
         //ログイン後情報取得しレンダリング
     }
 
     signOutClickEvent = () => {
-        this.Authorization.deleteCookie();
+        alert('signInClickEvent');
+        gapi.oauthSignOut();
     }
 }

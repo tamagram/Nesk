@@ -10,7 +10,7 @@ export class View implements interfaces.View {
         this._Model = _instanceModel;
     }
 
-    rendering = () => {
+    rendering = (_isSignedIn?: boolean) => {
         // console.log('call rendering');
         //一度消去
         document.querySelectorAll('.card').forEach(_element => {
