@@ -1,4 +1,6 @@
 import * as env from '../env/env'
+import * as interfaces from '../interfaces'
+import {controller} from '../main'
 
 // Client ID and API key from the Developer Console
 var CLIENT_ID = env.YOUR_CLIENT_ID;
@@ -53,6 +55,8 @@ function updateSigninStatus(isSignedIn) {
         authorizeButton.style.display = 'none';
         signoutButton.style.display = 'block';
         listUpcomingEvents();
+        controller.Model.setScheduleGroup(eventList);
+        controller.View.rendering();
     } else {
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
@@ -91,7 +95,10 @@ function appendPre(message) {
  * the authorized user's calendar. If no events are found an
  * appropriate message is printed.
  */
-function listUpcomingEvents() {
+
+let eventList: interfaces.EnteredValuesOfSchedule[] = [];
+
+export function listUpcomingEvents() {
     gapi.client.calendar.events.list({
         'calendarId': 'primary',
         'timeMin': (new Date()).toISOString(),
@@ -101,19 +108,36 @@ function listUpcomingEvents() {
         'orderBy': 'startTime'
     }).then(function (response) {
         var events = response.result.items;
-        appendPre('Upcoming events:');
+        // console.log(events);
+        // appendPre('Upcoming events:');
 
         if (events.length > 0) {
             for (let i = 0; i < events.length; i++) {
                 var event = events[i];
                 var when = event.start.dateTime;
+                // console.log(event.start.dateTime.slice(0, 10));
+                // console.log(event.start.dateTime.slice(11, 16));
                 if (!when) {
                     when = event.start.date;
                 }
-                appendPre(event.summary + ' (' + when + ')')
+                // appendPre(event.summary + ' (' + when + ')')
+
+                //eventListに追加
+                eventList.push({
+                    scheduleName: event.summary,
+                    scheduleDetails: event.description,
+                    yyyymmdd: event.start.dateTime.slice(0, 10),
+                    hhmm: event.start.dateTime.slice(11, 16),
+                });
             }
         } else {
-            appendPre('No upcoming events found.');
+            // appendPre('No upcoming events found.');
         }
+        
     });
+}
+
+export const getEventList = () => {
+    alert('getEventList');
+    return eventList;
 }

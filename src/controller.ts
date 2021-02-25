@@ -2,9 +2,10 @@ import * as interfaces from './interfaces'
 import * as gapi from './import/gapi'
 import { Model } from './model'
 import { View } from './view'
+import { promises } from 'fs';
 
 export class Controller implements interfaces.Controller {
-    private Model!: Model;
+    Model!: Model;
     View!: View;
     private _enteredValuesOfTask: interfaces.EnteredValuesOfTask;
     private _enteredValuesOfSchedule: interfaces.EnteredValuesOfSchedule;
@@ -114,8 +115,6 @@ export class Controller implements interfaces.Controller {
 
     signInClickEvent = () => {
         alert('signInClickEvent');
-        gapi.handleClientLoad();
-        //ログイン後情報取得しレンダリング
     }
 
     signOutClickEvent = () => {
