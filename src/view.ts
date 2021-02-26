@@ -12,6 +12,18 @@ export class View implements interfaces.View {
 
     rendering = (_isSignedIn?: boolean) => {
         // console.log('call rendering');
+        var cal = new CalHeatMap();
+        cal.init({
+            itemSelector: "#cal-heatmap",
+            domain: "month",
+            data: "data.json",
+            cellSize: 9,
+            range: 6,
+            previousSelector: "#example-b-PreviousDomain-selector",
+            nextSelector: "#example-b-NextDomain-selector",
+            displayLegend: false,
+            legend: [1, 2, 4, 7]
+        });
         //一度消去
         document.querySelectorAll('.card').forEach(_element => {
             _element.remove();

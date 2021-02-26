@@ -15,7 +15,10 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
     <script async defer src="https://apis.google.com/js/api.js">
-        </script>
+    </script>
+    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
     <!-- mystyle -->
     <link rel="stylesheet" href="style.css">
 
@@ -55,13 +58,22 @@
 </nav>
 
 <body>
-    <pre id="content" style="white-space: pre-wrap;"></pre>
-
     <!-- task schedule -->
     <div id="taskSchedule" class="container section">
         <div class="row">
             <div id="taskCardInsert" class="col-sm">
+                <div id="heartmap" class="col-sm">
+                    <button id="example-b-PreviousDomain-selector" style="margin-bottom: 10px;"
+                        class="btn border rounded">
+                        < </button>
+                            <button id="example-b-NextDomain-selector" style="margin-bottom: 10px;"
+                                class="btn border rounded">>
+                            </button>
+                            <h4>contribution</h4>
+                            <div id="cal-heatmap"></div>
+                </div>
                 <div class="h2">TASK</div>
+                <pre id="content" style="white-space: pre-wrap;"></pre>
                 <!-- cardInsert -->
                 <div id="taskAlert" class="alert alert-success col-sm" role="alert">
                     現在タスクはありません！
@@ -69,6 +81,14 @@
                 <button id="taskRepeatBtn" class="btn btn-success">繰り返しタスクを表示</button>
             </div>
             <div id="scheduleCardInsert" class="col-sm">
+                <div id="heartmap" class="col-sm">
+                    <button id="example-b-PreviousDomain-selector" style="margin-bottom: 10px;" class="btn border rounded">
+                        < </button>
+                            <button id="example-b-NextDomain-selector" style="margin-bottom: 10px;" class="btn border rounded">>
+                            </button>
+                            <h4>contribution</h4>
+                            <div id="cal-heatmap"></div>
+                </div>
                 <div class="h2">SCHEDULE</div>
                 <!-- card insert -->
                 <div id="scheduleAlert" class="alert alert-success col-sm" role="alert">
