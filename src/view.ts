@@ -8,22 +8,34 @@ export class View implements interfaces.View {
     constructor(_instanceController: Controller, _instanceModel: Model) {
         this._Controller = _instanceController;
         this._Model = _instanceModel;
+        var cal1 = new CalHeatMap();
+        var cal2 = new CalHeatMap();
+        cal1.init({
+            itemSelector: "#cal-heatmap-contribution",
+            domain: "month",
+            data: "contribution.json",
+            cellSize: 9,
+            range: 6,
+            previousSelector: "#contribution-b-PreviousDomain-selector",
+            nextSelector: "#contribution-b-NextDomain-selector",
+            displayLegend: false,
+            legend: [1, 2, 4, 7]
+        });
+        cal2.init({
+            itemSelector: "#cal-heatmap-progression",
+            domain: "month",
+            data: "progression.json",
+            cellSize: 9,
+            range: 6,
+            previousSelector: "#progression-b-PreviousDomain-selector",
+            nextSelector: "#progression-b-NextDomain-selector",
+            displayLegend: false,
+            legend: [1, 2, 4, 7]
+        });
     }
 
     rendering = (_isSignedIn?: boolean) => {
         // console.log('call rendering');
-        var cal = new CalHeatMap();
-        cal.init({
-            itemSelector: "#cal-heatmap",
-            domain: "month",
-            data: "data.json",
-            cellSize: 9,
-            range: 6,
-            previousSelector: "#example-b-PreviousDomain-selector",
-            nextSelector: "#example-b-NextDomain-selector",
-            displayLegend: false,
-            legend: [1, 2, 4, 7]
-        });
         //一度消去
         document.querySelectorAll('.card').forEach(_element => {
             _element.remove();
