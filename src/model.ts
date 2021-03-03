@@ -46,26 +46,42 @@ export class Model implements interfaces.Model {
         localStorage.setItem('schedule', JSON.stringify(_tmp));
         return _tmp;
     }
-    _dateTimeSort = (_enteredValuesOfSchedule: interfaces.EnteredValuesOfSchedule[]) => {
+    _dateTimeSort = (_enteredValuesOfSchedules: interfaces.EnteredValuesOfSchedule[]) => {
         //時間昇順ソート
-        _enteredValuesOfSchedule.sort(function (a, b) {
+        _enteredValuesOfSchedules.sort(function (a, b) {
             return (a.hhmm < b.hhmm) ? -1 : 1;
         });
         //日付昇順ソート
-        _enteredValuesOfSchedule.sort(function (a, b) {
+        _enteredValuesOfSchedules.sort(function (a, b) {
             return (a.yyyymmdd < b.yyyymmdd) ? -1 : 1;
         });
-        return _enteredValuesOfSchedule;
+        return _enteredValuesOfSchedules;
+    }
+    _isCalendarIdOverlapping = (_schedule: interfaces.EnteredValuesOfSchedule) => {
+        let target = this.getScheduleGroup().filter(object => {
+            // idが「1」の配列のみ返します。
+            return object.id == _schedule.id;
+        }).shift()
+
+        return target != undefined;
     }
     setScheduleGroup = (_params: interfaces.EnteredValuesOfSchedule | interfaces.EnteredValuesOfSchedule[]) => {
-        // console.log("call setScheduleGroup");
+        console.log("call setScheduleGroup");
         if (Array.isArray(_params)) {
-            localStorage.setItem('schedule', JSON.stringify(this._dateTimeSort(_params)));
-        } else {
-            let _tmp = this.getScheduleGroup();
-            _tmp.push(_params);
-            _tmp = this._dateTimeSort(_tmp);
-            localStorage.setItem('schedule', JSON.stringify(_tmp));
+            let filtered = [];
+            _params.forEach(_schedule => {
+                if (!this._isCalendarIdOverlapping(_schedule)) filtered.push(_schedule);
+            });
+            console.log(filtered);
+            localStorage.setItem('schedule', JSON.stringify(this._dateTimeSort(filtered)));
+            
+        } else {                                                                                                                                                                                
+            if(!this._isCalendarIdOverlapping(_params)){
+                let _tmp = this.getScheduleGroup();
+                _tmp.push(_params);
+                _tmp = this._dateTimeSort(_tmp);
+                localStorage.setItem('schedule', JSON.stringify(_tmp));
+            }
         }
     }
 }

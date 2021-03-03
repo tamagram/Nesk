@@ -59,6 +59,7 @@ export class Controller implements interfaces.Controller {
             scheduleDetails: this._sanitaize((document.getElementById("scheduleDetails") as HTMLInputElement).value),
             yyyymmdd: (document.getElementById("scheduleDate") as HTMLInputElement).value,
             hhmm: (document.getElementById("scheduleTime") as HTMLInputElement).value,
+            id: Math.random().toString(32).slice(-9) + Math.random().toString(32).slice(-9) + Math.random().toString(32).slice(-9),
         }
         console.log(this._enteredValuesOfSchedule);
         this.Model.setScheduleGroup(this._enteredValuesOfSchedule);

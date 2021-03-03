@@ -1,6 +1,6 @@
 import * as env from '../env/env'
 import * as interfaces from '../interfaces'
-import {controller} from '../main'
+import { controller } from '../main'
 
 // Client ID and API key from the Developer Console
 var CLIENT_ID = env.YOUR_CLIENT_ID;
@@ -54,9 +54,8 @@ function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
         authorizeButton.style.display = 'none';
         signoutButton.style.display = 'block';
+        console.log('listUpcomingEvents');
         listUpcomingEvents();
-        controller.Model.setScheduleGroup(eventList);
-        controller.View.rendering();
     } else {
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
@@ -108,7 +107,7 @@ export function listUpcomingEvents() {
         'orderBy': 'startTime'
     }).then(function (response) {
         var events = response.result.items;
-        // console.log(events);
+        console.log(events);
         // appendPre('Upcoming events:');
 
         if (events.length > 0) {
@@ -123,21 +122,20 @@ export function listUpcomingEvents() {
                 // appendPre(event.summary + ' (' + when + ')')
 
                 //eventListに追加
+                eventList = [];
                 eventList.push({
                     scheduleName: event.summary,
                     scheduleDetails: event.description,
                     yyyymmdd: event.start.dateTime.slice(0, 10),
                     hhmm: event.start.dateTime.slice(11, 16),
+                    id: event.id,
                 });
             }
+            controller.Model.setScheduleGroup(eventList);
+            controller.View.rendering();
         } else {
             // appendPre('No upcoming events found.');
         }
-        
-    });
-}
 
-export const getEventList = () => {
-    alert('getEventList');
-    return eventList;
+    });
 }

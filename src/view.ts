@@ -123,7 +123,7 @@ export class View implements interfaces.View {
                     `<div class="card text-white bg-info mb-3">
                             <div class="card-body">
                                 <h5 class="card-title">${_element.scheduleName}</h5>
-                                <p class="card-text">${_element.scheduleDetails?.replace(/(https:\/\/[\x21-\x7e]+\/[\x21-\x7e]+)/gi, "<a href='$1' class='text-warning'>$1</a>" || "詳細なし")}</p>
+                                <p class="card-text">${_element.scheduleDetails?.replace(/(https:\/\/[\x21-\x7e]+\/[\x21-\x7e]+)/gi, "<a href='$1' class='text-warning'>$1</a>") || "詳細なし"}</p>
                             </div>
                             <div class="card-footer bg-dark rounded">
                             <div class="row">

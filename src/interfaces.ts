@@ -10,6 +10,7 @@ export interface EnteredValuesOfSchedule {
     scheduleDetails: string,
     yyyymmdd: string,
     hhmm: string,
+    id: string,
 }
 
 export interface Model {
