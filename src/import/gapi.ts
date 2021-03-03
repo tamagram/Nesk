@@ -111,6 +111,7 @@ export function listUpcomingEvents() {
         // appendPre('Upcoming events:');
 
         if (events.length > 0) {
+            eventList = [];
             for (let i = 0; i < events.length; i++) {
                 var event = events[i];
                 var when = event.start.dateTime;
@@ -122,7 +123,6 @@ export function listUpcomingEvents() {
                 // appendPre(event.summary + ' (' + when + ')')
 
                 //eventListに追加
-                eventList = [];
                 eventList.push({
                     scheduleName: event.summary,
                     scheduleDetails: event.description,
@@ -136,6 +136,6 @@ export function listUpcomingEvents() {
         } else {
             // appendPre('No upcoming events found.');
         }
-
+        
     });
 }
