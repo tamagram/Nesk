@@ -85,10 +85,12 @@ export class Model implements interfaces.Model {
             let filtered: interfaces.EnteredValuesOfSchedule[] = [];
             console.log(_params);
             _params.forEach(_schedule => {
-                if (!this._isCalendarIdOverlapping(_schedule)) filtered.push(_schedule);
+                if (!this._isCalendarIdOverlapping(_schedule)){
+                    filtered.push(_schedule);
+                } 
             });
             console.log(filtered);
-            localStorage.setItem('schedule', JSON.stringify(this._dateTimeSort(filtered)));
+            localStorage.setItem('schedule', JSON.stringify(this._dateTimeSort(filtered.concat(this.getScheduleGroup()))));
 
         } else {
             if (!this._isCalendarIdOverlapping(_params)) {
