@@ -27,7 +27,7 @@ export class View implements interfaces.View {
         cal2.init({
             itemSelector: "#cal-heatmap-progression",
             domain: "month",
-            data: "progression.json",
+            data: this._Model.returnJsonProgression(),
             cellSize: 9,
             range: 6,
             previousSelector: "#progression-b-PreviousDomain-selector",

@@ -65,6 +65,20 @@ export class Model implements interfaces.Model {
 
         return target != undefined;
     }
+    returnJsonProgression = () => {
+        let json = {};
+        this.getScheduleGroup().forEach(schedule => {
+            let unixtime = new Date(schedule.yyyymmdd).getTime() / 1000;
+            if (unixtime in json) {
+                json[unixtime] += 1;
+            } else {
+                json[unixtime] = 1;
+            }
+        })
+        console.log('jsonCall');
+        console.log(json);
+        return json;
+    }
     setScheduleGroup = (_params: interfaces.EnteredValuesOfSchedule | interfaces.EnteredValuesOfSchedule[]) => {
         console.log("call setScheduleGroup");
         if (Array.isArray(_params)) {

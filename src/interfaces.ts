@@ -19,6 +19,7 @@ export interface Model {
     getRepeatTaskGroup(): EnteredValuesOfTask[];
     setRepeatTaskGroup(_param: EnteredValuesOfTask | EnteredValuesOfTask[]): void;
     getScheduleGroup(): EnteredValuesOfSchedule[];
+    returnJsonProgression(): {};
     setScheduleGroup(_param: EnteredValuesOfSchedule | EnteredValuesOfSchedule[]): void;
 }
 
