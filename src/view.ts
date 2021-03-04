@@ -1,6 +1,7 @@
 import * as interfaces from './interfaces'
 import { Controller } from './controller'
 import { Model } from './model'
+import { stringify } from 'querystring';
 
 export class View implements interfaces.View {
     private _Controller!: Controller;
@@ -35,6 +36,13 @@ export class View implements interfaces.View {
             displayLegend: false,
             legend: [1, 2, 4, 7]
         });
+        setInterval(this._dateClock, 1000);
+    }
+    _dateClock = () => {
+        let date = new Date();
+        document.getElementById('date').innerHTML = String(date.getFullYear()) + '/' + String(date.getMonth()) + '/' + String(date.getDay());
+        document.getElementById('clock').innerHTML = String(date.getHours()) + ':' + String(date.getMinutes()) + ':' + String(date.getSeconds());
+
     }
 
     rendering = (_isSignedIn?: boolean) => {
