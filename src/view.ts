@@ -10,9 +10,12 @@ export class View implements interfaces.View {
         this._Model = _instanceModel;
         var cal1 = new CalHeatMap();
         var cal2 = new CalHeatMap();
+        let halfAYear = new Date();
+        halfAYear.setMonth(halfAYear.getMonth() - 6);
         cal1.init({
             itemSelector: "#cal-heatmap-contribution",
             domain: "month",
+            start: halfAYear,
             data: "contribution.json",
             cellSize: 9,
             range: 6,
