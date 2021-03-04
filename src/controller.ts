@@ -94,6 +94,15 @@ export class Controller implements interfaces.Controller {
     }
 
     doneClickEvent = () => {
+        //contributionに情報付加
+        let contribution: {} = JSON.parse(localStorage.getItem('contribution') || '{}');
+        let unixtime = new Date().getTime() / 1000;
+        if (unixtime in contribution) {
+            contribution[unixtime] += 1;
+        } else {
+            contribution[unixtime] = 1;
+        }
+        localStorage.setItem('contribution', JSON.stringify(contribution));
         //alert("clickedDoneEvent");
         this._taskGroup = this.Model.getTaskGroup();
         if (this._taskGroup[0].repeat) {

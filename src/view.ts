@@ -17,7 +17,7 @@ export class View implements interfaces.View {
             itemSelector: "#cal-heatmap-contribution",
             domain: "month",
             start: halfAYear,
-            data: "contribution.json",
+            data: JSON.parse(localStorage.getItem('contribution') || '{}'),
             cellSize: 9,
             range: 6,
             previousSelector: "#contribution-b-PreviousDomain-selector",
