@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Typography } from '@material-ui/core';
 import styled from 'styled-components';
 
-const TaskCard = styled(Card)`
+const StyledTaskCard = styled(Card)`
   margin: 10px;
   padding: 10px;
   display: Flex;
@@ -16,24 +16,23 @@ const Actions = styled.div`
   justify-content: space-between;
 `;
 
-const StyledTaskCard = () => {
+const TaskCard = () => {
   return (
-    <TaskCard>
+    <StyledTaskCard>
       <CardContent>
         <Typography style={{ wordWrap: 'break-word' }} variant="h5" component="h2">
           title
         </Typography>
         <Typography style={{ wordWrap: 'break-word' }} variant="body1">
           texttextexttexttextexttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextext
-          texttextexttexttextexttexttextexttexttextextttextextttextextttextextttextextttextextttextextttextextttextextttextextttextextttextext
         </Typography>
       </CardContent>
       <Actions>
         <Button variant="contained" color="secondary">skip</Button>
         <Button variant="contained" color="primary">done</Button>
       </Actions>
-    </TaskCard>
+    </StyledTaskCard>
   );
 };
 
-export default StyledTaskCard;
+export default TaskCard;
