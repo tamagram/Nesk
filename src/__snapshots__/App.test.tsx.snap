@@ -1,0 +1,314 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders learn react link 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="App"
+      >
+        <form
+          class="sc-bdnxRM gmIBmn"
+        >
+          <div
+            class="MuiFormControl-root MuiTextField-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+              data-shrink="false"
+            >
+              title
+            </label>
+            <div
+              class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiInput-input"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="MuiFormControl-root MuiTextField-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+              data-shrink="false"
+            >
+              details
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
+            >
+              <textarea
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+                rows="3"
+              />
+              <fieldset
+                aria-hidden="true"
+                class="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="PrivateNotchedOutline-legendLabelled-3"
+                >
+                  <span>
+                    details
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained"
+            tabindex="0"
+            type="submit"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              stack
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+        </form>
+        <div
+          class="MuiPaper-root MuiCard-root sc-gtsrHT crhWqF MuiPaper-elevation1 MuiPaper-rounded"
+        >
+          <div
+            class="MuiCardContent-root"
+          >
+            <h2
+              class="MuiTypography-root MuiTypography-h5"
+              style="word-wrap: break-word;"
+            >
+              title
+            </h2>
+            <p
+              class="MuiTypography-root MuiTypography-body1"
+              style="word-wrap: break-word;"
+            >
+              texttextexttexttextexttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextext
+            </p>
+          </div>
+          <div
+            class="sc-dlnjwi iuJSUK"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                skip
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                done
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="App"
+    >
+      <form
+        class="sc-bdnxRM gmIBmn"
+      >
+        <div
+          class="MuiFormControl-root MuiTextField-root"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+            data-shrink="false"
+          >
+            title
+          </label>
+          <div
+            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input MuiInput-input"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          class="MuiFormControl-root MuiTextField-root"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+            data-shrink="false"
+          >
+            details
+          </label>
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
+          >
+            <textarea
+              aria-invalid="false"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+              rows="3"
+            />
+            <fieldset
+              aria-hidden="true"
+              class="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="PrivateNotchedOutline-legendLabelled-3"
+              >
+                <span>
+                  details
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained"
+          tabindex="0"
+          type="submit"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            stack
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+      </form>
+      <div
+        class="MuiPaper-root MuiCard-root sc-gtsrHT crhWqF MuiPaper-elevation1 MuiPaper-rounded"
+      >
+        <div
+          class="MuiCardContent-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-h5"
+            style="word-wrap: break-word;"
+          >
+            title
+          </h2>
+          <p
+            class="MuiTypography-root MuiTypography-body1"
+            style="word-wrap: break-word;"
+          >
+            texttextexttexttextexttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextextxttexttextexttexttextext
+          </p>
+        </div>
+        <div
+          class="sc-dlnjwi iuJSUK"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              skip
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              done
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
