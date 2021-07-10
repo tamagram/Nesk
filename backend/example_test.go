@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"entgo.io/ent/dialect"
 	_ "github.com/mattn/go-sqlite3"
@@ -27,7 +28,9 @@ func ExampleTask() {
 	if err != nil {
 		log.Fatalf("failed creating a Task: %v", err)
 	}
+
+	task1.CreatedAt = time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)
 	fmt.Println(task1)
 	// Output:
-	// Task(id=1, title=No title, details=No details)
+	// Task(id=1, title=No title, details=No details, status=in_progress, priority=0, created_at=Fri Jan  1 00:00:00 2021)
 }
