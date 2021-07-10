@@ -1,7 +1,11 @@
 package schema
 
-import "entgo.io/ent"
-import "entgo.io/ent/schema/field"
+import (
+	"time"
+
+	"entgo.io/ent"
+	"entgo.io/ent/schema/field"
+)
 
 // Task holds the schema definition for the Task entity.
 type Task struct {
@@ -15,6 +19,14 @@ func (Task) Fields() []ent.Field {
 			Default("No title"),
 		field.String("details").
 			Default("No details"),
+		field.Enum("status").
+			Values("in_progress", "completed").
+			Default("in_progress"),
+		field.Int("priority").
+			Default(0),
+		field.Time("created_at").
+			Default(time.Now).
+			Immutable(),
 	}
 }
 

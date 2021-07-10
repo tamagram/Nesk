@@ -5,6 +5,7 @@ package ent
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/tamagram/nesk/backend/ent/task"
@@ -19,6 +20,12 @@ type Task struct {
 	Title string `json:"title,omitempty"`
 	// Details holds the value of the "details" field.
 	Details string `json:"details,omitempty"`
+	// Status holds the value of the "status" field.
+	Status task.Status `json:"status,omitempty"`
+	// Priority holds the value of the "priority" field.
+	Priority int `json:"priority,omitempty"`
+	// CreatedAt holds the value of the "created_at" field.
+	CreatedAt time.Time `json:"created_at,omitempty"`
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -26,10 +33,12 @@ func (*Task) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case task.FieldID:
+		case task.FieldID, task.FieldPriority:
 			values[i] = new(sql.NullInt64)
-		case task.FieldTitle, task.FieldDetails:
+		case task.FieldTitle, task.FieldDetails, task.FieldStatus:
 			values[i] = new(sql.NullString)
+		case task.FieldCreatedAt:
+			values[i] = new(sql.NullTime)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Task", columns[i])
 		}
@@ -63,6 +72,24 @@ func (t *Task) assignValues(columns []string, values []interface{}) error {
 			} else if value.Valid {
 				t.Details = value.String
 			}
+		case task.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				t.Status = task.Status(value.String)
+			}
+		case task.FieldPriority:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field priority", values[i])
+			} else if value.Valid {
+				t.Priority = int(value.Int64)
+			}
+		case task.FieldCreatedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
+			} else if value.Valid {
+				t.CreatedAt = value.Time
+			}
 		}
 	}
 	return nil
@@ -95,6 +122,12 @@ func (t *Task) String() string {
 	builder.WriteString(t.Title)
 	builder.WriteString(", details=")
 	builder.WriteString(t.Details)
+	builder.WriteString(", status=")
+	builder.WriteString(fmt.Sprintf("%v", t.Status))
+	builder.WriteString(", priority=")
+	builder.WriteString(fmt.Sprintf("%v", t.Priority))
+	builder.WriteString(", created_at=")
+	builder.WriteString(t.CreatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -13,6 +13,9 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "title", Type: field.TypeString, Default: "No title"},
 		{Name: "details", Type: field.TypeString, Default: "No details"},
+		{Name: "status", Type: field.TypeEnum, Enums: []string{"in_progress", "completed"}, Default: "in_progress"},
+		{Name: "priority", Type: field.TypeInt, Default: 0},
+		{Name: "created_at", Type: field.TypeTime},
 	}
 	// TasksTable holds the schema information for the "tasks" table.
 	TasksTable = &schema.Table{

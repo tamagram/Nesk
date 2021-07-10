@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -43,6 +44,48 @@ func (tc *TaskCreate) SetDetails(s string) *TaskCreate {
 func (tc *TaskCreate) SetNillableDetails(s *string) *TaskCreate {
 	if s != nil {
 		tc.SetDetails(*s)
+	}
+	return tc
+}
+
+// SetStatus sets the "status" field.
+func (tc *TaskCreate) SetStatus(t task.Status) *TaskCreate {
+	tc.mutation.SetStatus(t)
+	return tc
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (tc *TaskCreate) SetNillableStatus(t *task.Status) *TaskCreate {
+	if t != nil {
+		tc.SetStatus(*t)
+	}
+	return tc
+}
+
+// SetPriority sets the "priority" field.
+func (tc *TaskCreate) SetPriority(i int) *TaskCreate {
+	tc.mutation.SetPriority(i)
+	return tc
+}
+
+// SetNillablePriority sets the "priority" field if the given value is not nil.
+func (tc *TaskCreate) SetNillablePriority(i *int) *TaskCreate {
+	if i != nil {
+		tc.SetPriority(*i)
+	}
+	return tc
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (tc *TaskCreate) SetCreatedAt(t time.Time) *TaskCreate {
+	tc.mutation.SetCreatedAt(t)
+	return tc
+}
+
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (tc *TaskCreate) SetNillableCreatedAt(t *time.Time) *TaskCreate {
+	if t != nil {
+		tc.SetCreatedAt(*t)
 	}
 	return tc
 }
@@ -107,6 +150,18 @@ func (tc *TaskCreate) defaults() {
 		v := task.DefaultDetails
 		tc.mutation.SetDetails(v)
 	}
+	if _, ok := tc.mutation.Status(); !ok {
+		v := task.DefaultStatus
+		tc.mutation.SetStatus(v)
+	}
+	if _, ok := tc.mutation.Priority(); !ok {
+		v := task.DefaultPriority
+		tc.mutation.SetPriority(v)
+	}
+	if _, ok := tc.mutation.CreatedAt(); !ok {
+		v := task.DefaultCreatedAt()
+		tc.mutation.SetCreatedAt(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -116,6 +171,20 @@ func (tc *TaskCreate) check() error {
 	}
 	if _, ok := tc.mutation.Details(); !ok {
 		return &ValidationError{Name: "details", err: errors.New("ent: missing required field \"details\"")}
+	}
+	if _, ok := tc.mutation.Status(); !ok {
+		return &ValidationError{Name: "status", err: errors.New("ent: missing required field \"status\"")}
+	}
+	if v, ok := tc.mutation.Status(); ok {
+		if err := task.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf("ent: validator failed for field \"status\": %w", err)}
+		}
+	}
+	if _, ok := tc.mutation.Priority(); !ok {
+		return &ValidationError{Name: "priority", err: errors.New("ent: missing required field \"priority\"")}
+	}
+	if _, ok := tc.mutation.CreatedAt(); !ok {
+		return &ValidationError{Name: "created_at", err: errors.New("ent: missing required field \"created_at\"")}
 	}
 	return nil
 }
@@ -159,6 +228,30 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 			Column: task.FieldDetails,
 		})
 		_node.Details = value
+	}
+	if value, ok := tc.mutation.Status(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeEnum,
+			Value:  value,
+			Column: task.FieldStatus,
+		})
+		_node.Status = value
+	}
+	if value, ok := tc.mutation.Priority(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: task.FieldPriority,
+		})
+		_node.Priority = value
+	}
+	if value, ok := tc.mutation.CreatedAt(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: task.FieldCreatedAt,
+		})
+		_node.CreatedAt = value
 	}
 	return _node, _spec
 }
