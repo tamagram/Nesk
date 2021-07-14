@@ -5,6 +5,6 @@ package runtime
 // The schema-stitching logic is generated in github.com/tamagram/nesk/backend/ent/runtime.go
 
 const (
-	Version = "v0.8.0"                                          // Version of ent codegen.
-	Sum     = "h1:xirrW//1oda7pp0bz+XssSOv4/C3nmgYQOxjIfljFt8=" // Sum of ent codegen.
+	Version = "v0.8.1-0.20210630104730-a19a89a141cf"            // Version of ent codegen.
+	Sum     = "h1:pBl2eaSsIfQRT+8985JhMWekzeO+MwpX5Sc/hvQHCq8=" // Sum of ent codegen.
 )

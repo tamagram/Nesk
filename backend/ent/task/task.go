@@ -2,11 +2,6 @@
 
 package task
 
-import (
-	"fmt"
-	"time"
-)
-
 const (
 	// Label holds the string label denoting the task type in the database.
 	Label = "task"
@@ -16,12 +11,6 @@ const (
 	FieldTitle = "title"
 	// FieldDetails holds the string denoting the details field in the database.
 	FieldDetails = "details"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
-	// FieldPriority holds the string denoting the priority field in the database.
-	FieldPriority = "priority"
-	// FieldCreatedAt holds the string denoting the created_at field in the database.
-	FieldCreatedAt = "created_at"
 	// Table holds the table name of the task in the database.
 	Table = "tasks"
 )
@@ -31,9 +20,6 @@ var Columns = []string{
 	FieldID,
 	FieldTitle,
 	FieldDetails,
-	FieldStatus,
-	FieldPriority,
-	FieldCreatedAt,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -51,34 +37,4 @@ var (
 	DefaultTitle string
 	// DefaultDetails holds the default value on creation for the "details" field.
 	DefaultDetails string
-	// DefaultPriority holds the default value on creation for the "priority" field.
-	DefaultPriority int
-	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
-	DefaultCreatedAt func() time.Time
 )
-
-// Status defines the type for the "status" enum field.
-type Status string
-
-// StatusInProgress is the default value of the Status enum.
-const DefaultStatus = StatusInProgress
-
-// Status values.
-const (
-	StatusInProgress Status = "in_progress"
-	StatusCompleted  Status = "completed"
-)
-
-func (s Status) String() string {
-	return string(s)
-}
-
-// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
-func StatusValidator(s Status) error {
-	switch s {
-	case StatusInProgress, StatusCompleted:
-		return nil
-	default:
-		return fmt.Errorf("task: invalid enum value for status field: %q", s)
-	}
-}

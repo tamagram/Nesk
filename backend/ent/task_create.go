@@ -6,7 +6,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -48,48 +47,6 @@ func (tc *TaskCreate) SetNillableDetails(s *string) *TaskCreate {
 	return tc
 }
 
-// SetStatus sets the "status" field.
-func (tc *TaskCreate) SetStatus(t task.Status) *TaskCreate {
-	tc.mutation.SetStatus(t)
-	return tc
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableStatus(t *task.Status) *TaskCreate {
-	if t != nil {
-		tc.SetStatus(*t)
-	}
-	return tc
-}
-
-// SetPriority sets the "priority" field.
-func (tc *TaskCreate) SetPriority(i int) *TaskCreate {
-	tc.mutation.SetPriority(i)
-	return tc
-}
-
-// SetNillablePriority sets the "priority" field if the given value is not nil.
-func (tc *TaskCreate) SetNillablePriority(i *int) *TaskCreate {
-	if i != nil {
-		tc.SetPriority(*i)
-	}
-	return tc
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (tc *TaskCreate) SetCreatedAt(t time.Time) *TaskCreate {
-	tc.mutation.SetCreatedAt(t)
-	return tc
-}
-
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableCreatedAt(t *time.Time) *TaskCreate {
-	if t != nil {
-		tc.SetCreatedAt(*t)
-	}
-	return tc
-}
-
 // Mutation returns the TaskMutation object of the builder.
 func (tc *TaskCreate) Mutation() *TaskMutation {
 	return tc.mutation
@@ -117,7 +74,10 @@ func (tc *TaskCreate) Save(ctx context.Context) (*Task, error) {
 				return nil, err
 			}
 			tc.mutation = mutation
-			node, err = tc.sqlSave(ctx)
+			if node, err = tc.sqlSave(ctx); err != nil {
+				return nil, err
+			}
+			mutation.id = &node.ID
 			mutation.done = true
 			return node, err
 		})
@@ -150,18 +110,6 @@ func (tc *TaskCreate) defaults() {
 		v := task.DefaultDetails
 		tc.mutation.SetDetails(v)
 	}
-	if _, ok := tc.mutation.Status(); !ok {
-		v := task.DefaultStatus
-		tc.mutation.SetStatus(v)
-	}
-	if _, ok := tc.mutation.Priority(); !ok {
-		v := task.DefaultPriority
-		tc.mutation.SetPriority(v)
-	}
-	if _, ok := tc.mutation.CreatedAt(); !ok {
-		v := task.DefaultCreatedAt()
-		tc.mutation.SetCreatedAt(v)
-	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -172,28 +120,14 @@ func (tc *TaskCreate) check() error {
 	if _, ok := tc.mutation.Details(); !ok {
 		return &ValidationError{Name: "details", err: errors.New("ent: missing required field \"details\"")}
 	}
-	if _, ok := tc.mutation.Status(); !ok {
-		return &ValidationError{Name: "status", err: errors.New("ent: missing required field \"status\"")}
-	}
-	if v, ok := tc.mutation.Status(); ok {
-		if err := task.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf("ent: validator failed for field \"status\": %w", err)}
-		}
-	}
-	if _, ok := tc.mutation.Priority(); !ok {
-		return &ValidationError{Name: "priority", err: errors.New("ent: missing required field \"priority\"")}
-	}
-	if _, ok := tc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "created_at", err: errors.New("ent: missing required field \"created_at\"")}
-	}
 	return nil
 }
 
 func (tc *TaskCreate) sqlSave(ctx context.Context) (*Task, error) {
 	_node, _spec := tc.createSpec()
 	if err := sqlgraph.CreateNode(ctx, tc.driver, _spec); err != nil {
-		if cerr, ok := isSQLConstraintError(err); ok {
-			err = cerr
+		if sqlgraph.IsConstraintError(err) {
+			err = &ConstraintError{err.Error(), err}
 		}
 		return nil, err
 	}
@@ -229,30 +163,6 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 		})
 		_node.Details = value
 	}
-	if value, ok := tc.mutation.Status(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeEnum,
-			Value:  value,
-			Column: task.FieldStatus,
-		})
-		_node.Status = value
-	}
-	if value, ok := tc.mutation.Priority(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: task.FieldPriority,
-		})
-		_node.Priority = value
-	}
-	if value, ok := tc.mutation.CreatedAt(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeTime,
-			Value:  value,
-			Column: task.FieldCreatedAt,
-		})
-		_node.CreatedAt = value
-	}
 	return _node, _spec
 }
 
@@ -287,15 +197,16 @@ func (tcb *TaskCreateBulk) Save(ctx context.Context) ([]*Task, error) {
 				} else {
 					// Invoke the actual operation on the latest mutation in the chain.
 					if err = sqlgraph.BatchCreate(ctx, tcb.driver, &sqlgraph.BatchCreateSpec{Nodes: specs}); err != nil {
-						if cerr, ok := isSQLConstraintError(err); ok {
-							err = cerr
+						if sqlgraph.IsConstraintError(err) {
+							err = &ConstraintError{err.Error(), err}
 						}
 					}
 				}
-				mutation.done = true
 				if err != nil {
 					return nil, err
 				}
+				mutation.id = &nodes[i].ID
+				mutation.done = true
 				id := specs[i].ID.Value.(int64)
 				nodes[i].ID = int(id)
 				return nodes[i], nil

@@ -54,41 +54,6 @@ func (tu *TaskUpdate) SetNillableDetails(s *string) *TaskUpdate {
 	return tu
 }
 
-// SetStatus sets the "status" field.
-func (tu *TaskUpdate) SetStatus(t task.Status) *TaskUpdate {
-	tu.mutation.SetStatus(t)
-	return tu
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableStatus(t *task.Status) *TaskUpdate {
-	if t != nil {
-		tu.SetStatus(*t)
-	}
-	return tu
-}
-
-// SetPriority sets the "priority" field.
-func (tu *TaskUpdate) SetPriority(i int) *TaskUpdate {
-	tu.mutation.ResetPriority()
-	tu.mutation.SetPriority(i)
-	return tu
-}
-
-// SetNillablePriority sets the "priority" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillablePriority(i *int) *TaskUpdate {
-	if i != nil {
-		tu.SetPriority(*i)
-	}
-	return tu
-}
-
-// AddPriority adds i to the "priority" field.
-func (tu *TaskUpdate) AddPriority(i int) *TaskUpdate {
-	tu.mutation.AddPriority(i)
-	return tu
-}
-
 // Mutation returns the TaskMutation object of the builder.
 func (tu *TaskUpdate) Mutation() *TaskMutation {
 	return tu.mutation
@@ -101,18 +66,12 @@ func (tu *TaskUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(tu.hooks) == 0 {
-		if err = tu.check(); err != nil {
-			return 0, err
-		}
 		affected, err = tu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*TaskMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
-			}
-			if err = tu.check(); err != nil {
-				return 0, err
 			}
 			tu.mutation = mutation
 			affected, err = tu.sqlSave(ctx)
@@ -151,16 +110,6 @@ func (tu *TaskUpdate) ExecX(ctx context.Context) {
 	}
 }
 
-// check runs all checks and user-defined validators on the builder.
-func (tu *TaskUpdate) check() error {
-	if v, ok := tu.mutation.Status(); ok {
-		if err := task.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf("ent: validator failed for field \"status\": %w", err)}
-		}
-	}
-	return nil
-}
-
 func (tu *TaskUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	_spec := &sqlgraph.UpdateSpec{
 		Node: &sqlgraph.NodeSpec{
@@ -193,32 +142,11 @@ func (tu *TaskUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: task.FieldDetails,
 		})
 	}
-	if value, ok := tu.mutation.Status(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeEnum,
-			Value:  value,
-			Column: task.FieldStatus,
-		})
-	}
-	if value, ok := tu.mutation.Priority(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: task.FieldPriority,
-		})
-	}
-	if value, ok := tu.mutation.AddedPriority(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: task.FieldPriority,
-		})
-	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{task.Label}
-		} else if cerr, ok := isSQLConstraintError(err); ok {
-			err = cerr
+		} else if sqlgraph.IsConstraintError(err) {
+			err = &ConstraintError{err.Error(), err}
 		}
 		return 0, err
 	}
@@ -261,41 +189,6 @@ func (tuo *TaskUpdateOne) SetNillableDetails(s *string) *TaskUpdateOne {
 	return tuo
 }
 
-// SetStatus sets the "status" field.
-func (tuo *TaskUpdateOne) SetStatus(t task.Status) *TaskUpdateOne {
-	tuo.mutation.SetStatus(t)
-	return tuo
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableStatus(t *task.Status) *TaskUpdateOne {
-	if t != nil {
-		tuo.SetStatus(*t)
-	}
-	return tuo
-}
-
-// SetPriority sets the "priority" field.
-func (tuo *TaskUpdateOne) SetPriority(i int) *TaskUpdateOne {
-	tuo.mutation.ResetPriority()
-	tuo.mutation.SetPriority(i)
-	return tuo
-}
-
-// SetNillablePriority sets the "priority" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillablePriority(i *int) *TaskUpdateOne {
-	if i != nil {
-		tuo.SetPriority(*i)
-	}
-	return tuo
-}
-
-// AddPriority adds i to the "priority" field.
-func (tuo *TaskUpdateOne) AddPriority(i int) *TaskUpdateOne {
-	tuo.mutation.AddPriority(i)
-	return tuo
-}
-
 // Mutation returns the TaskMutation object of the builder.
 func (tuo *TaskUpdateOne) Mutation() *TaskMutation {
 	return tuo.mutation
@@ -315,18 +208,12 @@ func (tuo *TaskUpdateOne) Save(ctx context.Context) (*Task, error) {
 		node *Task
 	)
 	if len(tuo.hooks) == 0 {
-		if err = tuo.check(); err != nil {
-			return nil, err
-		}
 		node, err = tuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*TaskMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
-			}
-			if err = tuo.check(); err != nil {
-				return nil, err
 			}
 			tuo.mutation = mutation
 			node, err = tuo.sqlSave(ctx)
@@ -363,16 +250,6 @@ func (tuo *TaskUpdateOne) ExecX(ctx context.Context) {
 	if err := tuo.Exec(ctx); err != nil {
 		panic(err)
 	}
-}
-
-// check runs all checks and user-defined validators on the builder.
-func (tuo *TaskUpdateOne) check() error {
-	if v, ok := tuo.mutation.Status(); ok {
-		if err := task.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf("ent: validator failed for field \"status\": %w", err)}
-		}
-	}
-	return nil
 }
 
 func (tuo *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) {
@@ -424,35 +301,14 @@ func (tuo *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) 
 			Column: task.FieldDetails,
 		})
 	}
-	if value, ok := tuo.mutation.Status(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeEnum,
-			Value:  value,
-			Column: task.FieldStatus,
-		})
-	}
-	if value, ok := tuo.mutation.Priority(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: task.FieldPriority,
-		})
-	}
-	if value, ok := tuo.mutation.AddedPriority(); ok {
-		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
-			Value:  value,
-			Column: task.FieldPriority,
-		})
-	}
 	_node = &Task{config: tuo.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
 	if err = sqlgraph.UpdateNode(ctx, tuo.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{task.Label}
-		} else if cerr, ok := isSQLConstraintError(err); ok {
-			err = cerr
+		} else if sqlgraph.IsConstraintError(err) {
+			err = &ConstraintError{err.Error(), err}
 		}
 		return nil, err
 	}
