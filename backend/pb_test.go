@@ -24,6 +24,29 @@ func TestTaskProto(t *testing.T) {
 	}
 }
 
+func TestCreate(t *testing.T) {
+	ctx := context.Background()
+	client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&cache=shared&_fk=1")
+	defer client.Close()
+
+	svc := entpb.NewTaskService(client)
+	got, err := svc.Create(ctx, &entpb.CreateTaskRequest{
+		Task: &entpb.Task{
+			Title:   "testTitle",
+			Details: "testDetails",
+		},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got.GetTitle() != "testTitle" {
+		t.Fatalf("got %s want %s", got.GetTitle(), "testTitle")
+	}
+	if got.GetDetails() != "testDetails" {
+		t.Fatalf("got %s want %s", got.GetDetails(), "testDetails")
+	}
+}
+
 func TestGet(t *testing.T) {
 	// インメモリのsqliteインスタンスに接続されたentクライアントの初期化から始めます
 	ctx := context.Background()
